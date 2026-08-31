@@ -2,7 +2,7 @@
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 
-const repo = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'mebelka112';
+const repo = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'mebelka';
 const base = process.env.ASTRO_BASE ?? `/${repo}/`;
 
 export default defineConfig({

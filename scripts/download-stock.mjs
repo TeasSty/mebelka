@@ -52,7 +52,7 @@ const assets = [
 
 async function download(url) {
   const res = await fetch(url, {
-    headers: { 'User-Agent': 'Mebelka112-site/1.0' },
+    headers: { 'User-Agent': 'Mebelka-site/1.0' },
   });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return Buffer.from(await res.arrayBuffer());

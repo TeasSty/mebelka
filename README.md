@@ -2,7 +2,7 @@
 
 Коммерческий сайт для **МебельКа** (Йошкар-Ола): кухни, шкафы-купе, прихожие, детская и офисная мебель на заказ.
 
-**Live:** https://teassty.github.io/mebelka112/
+**Live:** https://teassty.github.io/mebelka/
 
 ## Концепция дизайна — «Тёплая мастерская»
 
@@ -36,7 +36,7 @@ npm run build
 
 ## Деплой
 
-Push в `main` → `.github/workflows/deploy.yml` → https://teassty.github.io/mebelka112/
+Push в `main` → `.github/workflows/deploy.yml` → https://teassty.github.io/mebelka/
 
 ## Обновление фото
 

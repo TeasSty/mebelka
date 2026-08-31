@@ -4,7 +4,7 @@ export const site = {
   title: 'МебельКа — мебель на заказ в Йошкар-Оле',
   description:
     'Корпусная мебель на заказ в Йошкар-Оле: кухни, шкафы-купе, прихожие, детская и офисная мебель. Бесплатный замер и расчёт стоимости. Доставка и монтаж.',
-  url: 'https://teassty.github.io/mebelka112',
+  url: 'https://teassty.github.io/mebelka',
   city: 'Йошкар-Ола',
   region: 'Республика Марий Эл',
   address: {
