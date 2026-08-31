@@ -9,13 +9,13 @@ const primaryPhone = site.phones.find((p) => p.primary) ?? site.phones[0];
 <section class="hero" aria-labelledby="hero-title">
   <div class="container hero__shell">
     <div class="hero__content">
-      <p class="hero__eyebrow">
+      <p class="hero__eyebrow hero__reveal" style="--hero-delay: 0ms">
         <span class="hero__eyebrow-mark" aria-hidden="true"></span>
         {site.city} · корпусная мебель на заказ
       </p>
 
-      <h1 id="hero-title">{site.offer.headline}</h1>
-      <p class="hero__lead">{site.offer.subline}</p>
+      <h1 id="hero-title" class="hero__reveal" style="--hero-delay: 90ms">{site.offer.headline}</h1>
+      <p class="hero__lead hero__reveal" style="--hero-delay: 170ms">{site.offer.subline}</p>
 
       <ul class="hero__chips" aria-label="Преимущества">
         <li class="hero__chip">
@@ -32,12 +32,12 @@ const primaryPhone = site.phones.find((p) => p.primary) ?? site.phones[0];
         </li>
       </ul>
 
-      <ul class="hero__list">
+      <ul class="hero__list hero__reveal" style="--hero-delay: 420ms">
         <li>Кухни и шкафы-купе по вашим размерам</li>
         <li>Доставка и монтаж в {site.city}</li>
       </ul>
 
-      <div class="hero__actions">
+      <div class="hero__actions hero__reveal" style="--hero-delay: 500ms">
         <a class="btn btn--primary" href={withBase('/kontakty#zamer')}>{site.offer.cta}</a>
         <a class="btn btn--secondary" href={`tel:${primaryPhone.tel}`}>{primaryPhone.display}</a>
       </div>
@@ -62,11 +62,58 @@ const primaryPhone = site.phones.find((p) => p.primary) ?? site.phones[0];
 </section>
 
 <style>
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(0.625rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes hero-visual-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem) scale(0.985);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes hero-mark-grow {
+    from {
+      transform: scaleX(0);
+      transform-origin: left center;
+    }
+
+    to {
+      transform: scaleX(1);
+      transform-origin: left center;
+    }
+  }
+
   .hero {
     padding-block: clamp(2rem, 5vw, 3.25rem);
     background:
       linear-gradient(180deg, var(--color-panel) 0%, var(--color-bg) 100%);
     border-bottom: 1px solid var(--color-line);
+  }
+
+  .hero__reveal {
+    opacity: 0;
+    animation: hero-rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: var(--hero-delay, 0ms);
+  }
+
+  .hero__eyebrow-mark {
+    transform: scaleX(0);
+    animation: hero-mark-grow 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
   }
 
   .hero__shell {
@@ -131,6 +178,20 @@ const primaryPhone = site.phones.find((p) => p.primary) ?? site.phones[0];
     border: 1px solid var(--color-line);
     border-radius: var(--radius-sm);
     min-width: 5.5rem;
+    opacity: 0;
+    animation: hero-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .hero__chip:nth-child(1) {
+    animation-delay: 250ms;
+  }
+
+  .hero__chip:nth-child(2) {
+    animation-delay: 320ms;
+  }
+
+  .hero__chip:nth-child(3) {
+    animation-delay: 390ms;
   }
 
   .hero__chip-label {
@@ -185,6 +246,8 @@ const primaryPhone = site.phones.find((p) => p.primary) ?? site.phones[0];
     width: 100%;
     max-width: 32rem;
     justify-self: center;
+    opacity: 0;
+    animation: hero-visual-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) 140ms forwards;
   }
 
   .hero__mat {
@@ -193,6 +256,7 @@ const primaryPhone = site.phones.find((p) => p.primary) ?? site.phones[0];
     border: 1px solid var(--color-line);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-soft);
+    overflow: hidden;
   }
 
   :global(.hero__photo) {
@@ -201,6 +265,12 @@ const primaryPhone = site.phones.find((p) => p.primary) ?? site.phones[0];
     max-height: min(52vw, 22rem);
     object-fit: cover;
     border-radius: var(--radius-sm);
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .hero__mat:hover :global(.hero__photo),
+  .hero__mat:focus-within :global(.hero__photo) {
+    transform: scale(1.025);
   }
 
   .hero__caption {
@@ -229,6 +299,30 @@ const primaryPhone = site.phones.find((p) => p.primary) ?? site.phones[0];
 
     :global(.hero__photo) {
       max-height: 20rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__reveal,
+    .hero__visual,
+    .hero__chip {
+      opacity: 1;
+      animation: none;
+      transform: none;
+    }
+
+    .hero__eyebrow-mark {
+      transform: none;
+      animation: none;
+    }
+
+    :global(.hero__photo) {
+      transition: none;
+    }
+
+    .hero__mat:hover :global(.hero__photo),
+    .hero__mat:focus-within :global(.hero__photo) {
+      transform: none;
     }
   }
 </style>
