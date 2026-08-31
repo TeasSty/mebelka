@@ -9,15 +9,13 @@ const year = new Date().getFullYear();
   <div class="container footer__grid">
     <div>
       <p class="footer__brand">{site.name}</p>
-      <p class="footer__text">{site.tagline} в {site.city}</p>
+      <p class="footer__text">{site.tagline} · {site.city}</p>
       <p class="footer__text">{site.address.full}</p>
     </div>
 
     <div>
       <p class="footer__label">Связь</p>
-      <p>
-        <a href={`tel:${primaryPhone.tel}`}>{primaryPhone.display}</a>
-      </p>
+      <p><a href={`tel:${primaryPhone.tel}`}>{primaryPhone.display}</a></p>
       {
         site.phones
           .filter((p) => !p.primary)
@@ -28,8 +26,7 @@ const year = new Date().getFullYear();
           ))
       }
       <p><a href={site.messengers.whatsapp}>WhatsApp</a></p>
-      <p><a href={site.messengers.telegram}>Telegram</a></p>
-      <p><a href={site.vk.url}>ВКонтакте</a></p>
+      <p><a href={site.messengers.vk}>ВКонтакте</a></p>
     </div>
 
     <div>
@@ -45,54 +42,53 @@ const year = new Date().getFullYear();
   </div>
 
   <div class="container footer__bottom">
-    <p>© {year} {site.name}. Корпусная мебель на заказ.</p>
-    <p>
-      <a href={site.vk.albumsUrl}>Все фото работ во ВКонтакте</a>
-    </p>
+    <p>© {year} {site.name}</p>
+    <p><a href={site.vk.albumsUrl}>Все фото во ВКонтакте</a></p>
   </div>
 </footer>
 
 <style>
   .footer {
     padding-block: var(--space-8) var(--space-6);
-    background: var(--color-text);
-    color: #f4f1ec;
+    background: var(--color-walnut);
+    color: rgb(250 247 242 / 0.92);
   }
 
   .footer a {
     color: inherit;
+    text-decoration: none;
   }
 
   .footer a:hover {
     color: #fff;
+    text-decoration: underline;
   }
 
   .footer__grid {
     display: grid;
     gap: var(--space-6);
     padding-bottom: var(--space-6);
-    border-bottom: 1px solid rgb(255 255 255 / 0.15);
+    border-bottom: 1px solid rgb(255 255 255 / 0.12);
   }
 
   .footer__brand {
     font-family: var(--font-display);
-    font-size: 1.25rem;
-    text-transform: uppercase;
+    font-size: 1.75rem;
     margin: 0 0 var(--space-2);
   }
 
   .footer__label {
-    font-family: var(--font-mono);
     font-size: 0.75rem;
-    letter-spacing: 0.08em;
+    font-weight: 600;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgb(255 255 255 / 0.55);
+    color: rgb(255 255 255 / 0.5);
     margin: 0 0 var(--space-3);
   }
 
   .footer__text {
     margin: 0 0 var(--space-2);
-    color: rgb(255 255 255 / 0.78);
+    color: rgb(255 255 255 / 0.75);
   }
 
   .footer__bottom {
@@ -102,7 +98,7 @@ const year = new Date().getFullYear();
     gap: var(--space-3);
     padding-top: var(--space-5);
     font-size: 0.875rem;
-    color: rgb(255 255 255 / 0.65);
+    color: rgb(255 255 255 / 0.55);
   }
 
   @media (min-width: 768px) {

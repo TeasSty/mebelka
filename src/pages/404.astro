@@ -5,20 +5,17 @@ import { withBase } from '../lib/paths';
 ---
 
 <BaseLayout title={`Страница не найдена — ${site.name}`} path="/404">
-  <section class="section not-found grid-bg">
+  <section class="section not-found">
     <div class="container not-found__inner">
-      <p class="section__eyebrow">404 · чертёж не найден</p>
+      <p class="section__eyebrow">404</p>
       <h1>Такой страницы нет</h1>
       <p class="section__lead">
-        Возможно, ссылка устарела. Перейдите на главную или запишитесь на замер.
+        Возможно, ссылка устарела. Перейдите на главную или запишитесь на бесплатный замер.
       </p>
       <div class="not-found__actions">
         <a class="btn btn--primary" href={withBase()}>На главную</a>
         <a class="btn btn--secondary" href={withBase('/kontakty#zamer')}>{site.offer.cta}</a>
       </div>
-      <p class="not-found__dim">
-        <span>600</span> × <span>2400</span> мм — проверьте адрес
-      </p>
     </div>
   </section>
 </BaseLayout>
@@ -35,16 +32,5 @@ import { withBase } from '../lib/paths';
     flex-wrap: wrap;
     gap: var(--space-3);
     margin-top: var(--space-5);
-  }
-
-  .not-found__dim {
-    margin-top: var(--space-7);
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    color: var(--color-muted);
-  }
-
-  .not-found__dim span {
-    color: var(--color-accent);
   }
 </style>

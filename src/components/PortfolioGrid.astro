@@ -15,15 +15,17 @@ const visible = limit ? items.slice(0, limit) : items;
   {
     visible.map((item) => (
       <li class="portfolio-grid__item" data-category={item.category}>
-        <figure>
-          <ResponsiveImage
-            name={item.image}
-            alt={item.alt}
-            width={item.width}
-            height={item.height}
-            sizes="(min-width: 960px) 33vw, (min-width: 640px) 50vw, 100vw"
-            class="portfolio-grid__img"
-          />
+        <figure class="portfolio-grid__figure">
+          <div class="portfolio-grid__frame">
+            <ResponsiveImage
+              name={item.image}
+              alt={item.alt}
+              width={item.width}
+              height={item.height}
+              sizes="(min-width: 960px) 33vw, (min-width: 640px) 50vw, 100vw"
+              class="portfolio-grid__img"
+            />
+          </div>
         </figure>
       </li>
     ))
@@ -36,23 +38,41 @@ const visible = limit ? items.slice(0, limit) : items;
     margin: 0;
     padding: 0;
     display: grid;
-    gap: var(--space-4);
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+    gap: var(--space-5);
+    grid-template-columns: 1fr;
   }
 
   .portfolio-grid__item {
     margin: 0;
-    border: 1px solid rgb(138 154 123 / 0.3);
-    background: var(--color-panel);
   }
 
-  .portfolio-grid__item figure {
+  .portfolio-grid__figure {
     margin: 0;
+  }
+
+  .portfolio-grid__frame {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-panel);
+    border: 1px solid var(--color-line);
+    box-shadow: var(--shadow-card);
   }
 
   :global(.portfolio-grid__img) {
     width: 100%;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
+  }
+
+  @media (min-width: 640px) {
+    .portfolio-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .portfolio-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 </style>

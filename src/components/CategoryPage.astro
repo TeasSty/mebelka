@@ -22,38 +22,40 @@ const works = getPortfolioByCategory(category.slug);
   path={category.path}
   ogImage={`/images/${category.heroImage}.jpg`}
 >
-  <section class="page-hero grid-bg">
-    <div class="container page-hero__grid">
-      <div>
+  <section class="page-hero">
+    <div class="container page-hero__inner">
+      <div class="page-hero__copy">
         <p class="section__eyebrow">{site.city}</p>
         <h1>{category.headline}</h1>
         <p class="section__lead">{category.description}</p>
-        <ul class="page-hero__features">
+        <ul class="page-hero__list">
           {category.features.map((f) => <li>{f}</li>)}
         </ul>
         <div class="page-hero__actions">
           <a class="btn btn--primary" href={withBase('/kontakty#zamer')}>{site.offer.cta}</a>
-          <a class="btn btn--secondary" href={withBase('/portfolio')}>Смотреть работы</a>
+          <a class="btn btn--ghost" href={withBase('/portfolio')}>Все работы</a>
         </div>
       </div>
-      <ResponsiveImage
-        name={category.heroImage}
-        alt={category.name}
-        width={1080}
-        height={1440}
-        loading="eager"
-        fetchpriority="high"
-        sizes="(min-width: 960px) 45vw, 100vw"
-        class="page-hero__img"
-      />
+      <figure class="page-hero__figure">
+        <ResponsiveImage
+          name={category.heroImage}
+          alt={category.name}
+          width={1080}
+          height={810}
+          loading="eager"
+          fetchpriority="high"
+          sizes="(min-width: 960px) 45vw, 100vw"
+          class="page-hero__img"
+        />
+      </figure>
     </div>
   </section>
 
   {
     works.length > 0 && (
-      <section class="section">
+      <section class="section section--surface">
         <div class="container">
-          <p class="section__eyebrow">Примеры работ</p>
+          <p class="section__eyebrow">Примеры</p>
           <h2>{category.shortName} от {site.name}</h2>
           <PortfolioGrid items={works} />
           <p class="section__more">
@@ -64,7 +66,7 @@ const works = getPortfolioByCategory(category.slug);
     )
   }
 
-  <section class="section section--surface">
+  <section class="section">
     <div class="container">
       <ContactForm />
     </div>
@@ -74,17 +76,18 @@ const works = getPortfolioByCategory(category.slug);
 <style>
   .page-hero {
     padding-block: clamp(3rem, 8vw, 5rem);
+    background: var(--color-bg);
   }
 
-  .page-hero__grid {
+  .page-hero__inner {
     display: grid;
-    gap: var(--space-6);
+    gap: var(--space-7);
     align-items: center;
   }
 
-  .page-hero__features {
+  .page-hero__list {
     margin: 0 0 var(--space-5);
-    padding-left: 1.1rem;
+    padding-left: 1.2rem;
     color: var(--color-muted);
   }
 
@@ -92,17 +95,22 @@ const works = getPortfolioByCategory(category.slug);
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
+    align-items: center;
+  }
+
+  .page-hero__figure {
+    margin: 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+    box-shadow: var(--shadow-soft);
+    background: var(--color-panel);
   }
 
   :global(.page-hero__img) {
     width: 100%;
-    max-height: 36rem;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
-    border: 1px solid rgb(138 154 123 / 0.35);
-  }
-
-  .section--surface {
-    background: var(--color-surface);
   }
 
   .section__more {
@@ -110,8 +118,8 @@ const works = getPortfolioByCategory(category.slug);
   }
 
   @media (min-width: 960px) {
-    .page-hero__grid {
-      grid-template-columns: 1fr 0.9fr;
+    .page-hero__inner {
+      grid-template-columns: 1fr 1fr;
     }
   }
 </style>

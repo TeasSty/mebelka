@@ -1,0 +1,143 @@
+---
+import { site } from '../data/site';
+import { withBase } from '../lib/paths';
+import ModelViewer3D from './ModelViewer3D.astro';
+import ResponsiveImage from './ResponsiveImage.astro';
+
+const primaryPhone = site.phones.find((p) => p.primary) ?? site.phones[0];
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container hero__layout">
+    <div class="hero__copy">
+      <p class="hero__eyebrow">{site.city} · мебель на заказ</p>
+      <h1 id="hero-title">Пространство, которое собирают под вас</h1>
+      <p class="hero__lead">
+        {site.offer.subline}
+      </p>
+
+      <ul class="hero__trust">
+        <li><span>{site.vk.rating}</span> рейтинг VK</li>
+        <li><span>{site.vk.subscribers}</span> подписчиков</li>
+        <li><span>0 ₽</span> выезд дизайнера</li>
+      </ul>
+
+      <div class="hero__actions">
+        <a class="btn btn--primary" href={withBase('/kontakty#zamer')}>{site.offer.cta}</a>
+        <a class="btn btn--secondary" href={`tel:${primaryPhone.tel}`}>{primaryPhone.display}</a>
+      </div>
+    </div>
+
+    <div class="hero__art">
+      <ModelViewer3D />
+    </div>
+  </div>
+
+  <div class="container hero__showcase">
+    <figure class="hero__photo">
+      <ResponsiveImage
+        name="hero-kitchen"
+        alt="Кухня на заказ от МебельКа, Йошкар-Ола"
+        width={1280}
+        height={960}
+        loading="eager"
+        fetchpriority="high"
+        sizes="100vw"
+        class="hero__photo-img"
+      />
+      <figcaption>Реальный проект · фото из сообщества ВКонтакте</figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(2.5rem, 6vw, 4rem) clamp(2rem, 5vw, 3rem);
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgb(193 127 89 / 0.1), transparent),
+      var(--color-bg);
+  }
+
+  .hero__layout {
+    display: grid;
+    gap: var(--space-7);
+    align-items: center;
+    margin-bottom: var(--space-7);
+  }
+
+  .hero__eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-accent-soft);
+    margin: 0 0 var(--space-4);
+  }
+
+  .hero__lead {
+    max-width: 34rem;
+    color: var(--color-muted);
+    font-size: 1.125rem;
+    margin-bottom: var(--space-5);
+  }
+
+  .hero__trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-6);
+    list-style: none;
+    margin: 0 0 var(--space-6);
+    padding: 0;
+  }
+
+  .hero__trust li {
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+
+  .hero__trust span {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--color-text);
+    line-height: 1.2;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .hero__showcase {
+    max-width: 56rem;
+  }
+
+  .hero__photo {
+    margin: 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--color-panel);
+    border: 1px solid var(--color-line);
+    box-shadow: var(--shadow-card);
+  }
+
+  :global(.hero__photo-img) {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+
+  .hero__photo figcaption {
+    padding: var(--space-3) var(--space-4);
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+    border-top: 1px solid var(--color-line);
+  }
+
+  @media (min-width: 960px) {
+    .hero__layout {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

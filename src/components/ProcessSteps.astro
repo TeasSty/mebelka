@@ -4,11 +4,13 @@ import { processSteps } from '../data/content';
 
 <ol class="process">
   {
-    processSteps.map((step) => (
-      <li class="process__step">
-        <span class="process__size">{step.size}</span>
-        <h3>{step.title}</h3>
-        <p>{step.text}</p>
+    processSteps.map((step, index) => (
+      <li class="process__item">
+        <span class="process__num">{String(index + 1).padStart(2, '0')}</span>
+        <div>
+          <h3>{step.title}</h3>
+          <p>{step.text}</p>
+        </div>
       </li>
     ))
   }
@@ -23,33 +25,48 @@ import { processSteps } from '../data/content';
     gap: var(--space-4);
   }
 
-  .process__step {
+  .process__item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-4);
+    align-items: start;
     padding: var(--space-5);
     background: var(--color-panel);
-    border-left: 3px solid var(--color-accent);
-    border-bottom: 1px solid rgb(138 154 123 / 0.25);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-line);
   }
 
-  .process__size {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    color: var(--color-line);
+  .process__num {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    color: var(--color-accent-soft);
+    line-height: 1;
+  }
+
+  .process__item h3 {
     margin-bottom: var(--space-2);
   }
 
-  .process__step h3 {
-    margin-bottom: var(--space-2);
-  }
-
-  .process__step p {
+  .process__item p {
     margin: 0;
     color: var(--color-muted);
+    font-size: 0.9375rem;
   }
 
   @media (min-width: 768px) {
     .process {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .process {
       grid-template-columns: repeat(4, 1fr);
+    }
+
+    .process__item {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
     }
   }
 </style>
