@@ -5,6 +5,12 @@ import { withBase } from '../lib/paths';
 import ResponsiveImage from './ResponsiveImage.astro';
 
 const primaryPhone = site.phones.find((p) => p.primary) ?? site.phones[0];
+interface Props {
+  immersive?: boolean;
+}
+
+const { immersive = false } = Astro.props;
+
 const nav = [
   ...categories.map((c) => ({ href: c.path, label: c.shortName })),
   { href: '/portfolio', label: 'Работы' },
@@ -12,7 +18,7 @@ const nav = [
 ];
 ---
 
-<header class="header">
+<header class:list={['header', { 'header--immersive': immersive }]}>
   <div class="header__inner container">
     <a class="header__brand" href={withBase()} aria-label={`${site.name} — на главную`}>
       <ResponsiveImage

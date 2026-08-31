@@ -1,0 +1,56 @@
+---
+---
+
+<div class="aurora" aria-hidden="true">
+  <canvas class="aurora__canvas" data-aurora width="1200" height="800"></canvas>
+  <div class="aurora__fallback"></div>
+  <div class="aurora__vignette"></div>
+</div>
+
+<style>
+  .aurora {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .aurora__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .aurora__fallback {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 55% at 20% 20%, rgb(212 132 92 / 0.35), transparent 55%),
+      radial-gradient(ellipse 60% 50% at 80% 30%, rgb(122 61 31 / 0.4), transparent 50%),
+      radial-gradient(ellipse 80% 60% at 50% 100%, rgb(74 37 24 / 0.5), transparent 55%),
+      linear-gradient(165deg, #0a0806 0%, #14100d 45%, #0a0806 100%);
+  }
+
+  .aurora__canvas:not([data-static]) + .aurora__fallback {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .aurora__vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 40%, rgb(0 0 0 / 0.55) 100%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aurora__canvas {
+      display: none;
+    }
+
+    .aurora__fallback {
+      opacity: 1 !important;
+    }
+  }
+</style>

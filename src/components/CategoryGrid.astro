@@ -7,7 +7,7 @@ import ResponsiveImage from './ResponsiveImage.astro';
 <div class="category-grid">
   {
     categories.map((cat) => (
-      <a class="category-card" href={withBase(cat.path)}>
+      <a class="category-card" href={withBase(cat.path)} data-tilt>
         <div class="category-card__media">
           <ResponsiveImage
             name={cat.heroImage}
@@ -45,13 +45,15 @@ import ResponsiveImage from './ResponsiveImage.astro';
     border: 1px solid var(--color-line);
     overflow: hidden;
     box-shadow: var(--shadow-card);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition: box-shadow 0.35s ease;
+    will-change: transform;
   }
 
   .category-card:hover {
     color: inherit;
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-soft);
+    box-shadow:
+      var(--shadow-soft),
+      0 0 0 1px rgb(193 127 89 / 0.15);
   }
 
   .category-card__media {

@@ -12,10 +12,10 @@ import { portfolio } from '../data/portfolio';
 import { withBase } from '../lib/paths';
 ---
 
-<BaseLayout>
+<BaseLayout immersiveHeader>
   <HeroGallery />
 
-  <section class="section">
+  <section class="section" data-reveal>
     <div class="container">
       <p class="section__eyebrow">Направления</p>
       <h2>Мебель для каждой комнаты</h2>
@@ -26,7 +26,7 @@ import { withBase } from '../lib/paths';
     </div>
   </section>
 
-  <section class="section section--surface">
+  <section class="section section--surface" data-reveal>
     <div class="container features">
       <p class="section__eyebrow">Почему {site.name}</p>
       <h2>Спокойный процесс без сюрпризов</h2>
@@ -49,7 +49,7 @@ import { withBase } from '../lib/paths';
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" data-reveal>
     <div class="container">
       <p class="section__eyebrow">Процесс</p>
       <h2>От замера до монтажа</h2>
@@ -58,7 +58,7 @@ import { withBase } from '../lib/paths';
     </div>
   </section>
 
-  <section class="section section--surface">
+  <section class="section section--surface" data-reveal>
     <div class="container">
       <p class="section__eyebrow">Портфолио</p>
       <h2>Реальные работы</h2>
@@ -98,9 +98,16 @@ import { withBase } from '../lib/paths';
 
   .features__card {
     padding: var(--space-5);
-    background: var(--color-panel);
+    background: rgb(255 255 255 / 0.7);
     border-radius: var(--radius-md);
     border: 1px solid var(--color-line);
+    backdrop-filter: blur(8px);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .features__card:hover {
+    border-color: rgb(193 127 89 / 0.35);
+    box-shadow: 0 8px 32px rgb(26 22 20 / 0.06);
   }
 
   .features__card h3 {

@@ -1,106 +1,153 @@
 ---
 import { site } from '../data/site';
 import { withBase } from '../lib/paths';
-import ModelViewer3D from './ModelViewer3D.astro';
+import AuroraBackground from './AuroraBackground.astro';
 import ResponsiveImage from './ResponsiveImage.astro';
 
 const primaryPhone = site.phones.find((p) => p.primary) ?? site.phones[0];
 ---
 
 <section class="hero" aria-labelledby="hero-title">
-  <div class="container hero__layout">
+  <AuroraBackground />
+  <div class="hero__noise" aria-hidden="true"></div>
+
+  <div class="container hero__grid">
     <div class="hero__copy">
       <p class="hero__eyebrow">{site.city} · мебель на заказ</p>
-      <h1 id="hero-title">Пространство, которое собирают под вас</h1>
-      <p class="hero__lead">
-        {site.offer.subline}
-      </p>
+      <h1 id="hero-title">
+        <span class="hero__title-line">Пространство,</span>
+        <span class="hero__title-line hero__title-glow">которое живёт с вами</span>
+      </h1>
+      <p class="hero__lead">{site.offer.subline}</p>
 
       <ul class="hero__trust">
-        <li><span>{site.vk.rating}</span> рейтинг VK</li>
-        <li><span>{site.vk.subscribers}</span> подписчиков</li>
-        <li><span>0 ₽</span> выезд дизайнера</li>
+        <li class="hero__badge">
+          <span class="hero__badge-value">{site.vk.rating}</span>
+          <span class="hero__badge-label">рейтинг VK</span>
+        </li>
+        <li class="hero__badge">
+          <span class="hero__badge-value">{site.vk.subscribers}</span>
+          <span class="hero__badge-label">подписчиков</span>
+        </li>
+        <li class="hero__badge">
+          <span class="hero__badge-value">0 ₽</span>
+          <span class="hero__badge-label">выезд дизайнера</span>
+        </li>
       </ul>
 
       <div class="hero__actions">
-        <a class="btn btn--primary" href={withBase('/kontakty#zamer')}>{site.offer.cta}</a>
-        <a class="btn btn--secondary" href={`tel:${primaryPhone.tel}`}>{primaryPhone.display}</a>
+        <a class="btn btn--glow" href={withBase('/kontakty#zamer')}>{site.offer.cta}</a>
+        <a class="btn btn--glass" href={`tel:${primaryPhone.tel}`}>{primaryPhone.display}</a>
       </div>
     </div>
 
-    <div class="hero__art">
-      <ModelViewer3D />
+    <div class="hero__visual">
+      <div class="hero__frame" data-tilt>
+        <div class="hero__frame-glow" aria-hidden="true"></div>
+        <ResponsiveImage
+          name="hero-kitchen"
+          alt="Кухня на заказ от МебельКа, Йошкар-Ола"
+          width={1280}
+          height={960}
+          loading="eager"
+          fetchpriority="high"
+          sizes="(min-width: 960px) 42vw, 100vw"
+          class="hero__photo"
+        />
+        <p class="hero__caption">Реальный проект · фото из ВКонтакте</p>
+      </div>
     </div>
-  </div>
-
-  <div class="container hero__showcase">
-    <figure class="hero__photo">
-      <ResponsiveImage
-        name="hero-kitchen"
-        alt="Кухня на заказ от МебельКа, Йошкар-Ола"
-        width={1280}
-        height={960}
-        loading="eager"
-        fetchpriority="high"
-        sizes="100vw"
-        class="hero__photo-img"
-      />
-      <figcaption>Реальный проект · фото из сообщества ВКонтакте</figcaption>
-    </figure>
   </div>
 </section>
 
 <style>
   .hero {
-    padding-block: clamp(2.5rem, 6vw, 4rem) clamp(2rem, 5vw, 3rem);
-    background:
-      radial-gradient(ellipse 80% 50% at 50% -10%, rgb(193 127 89 / 0.1), transparent),
-      var(--color-bg);
+    position: relative;
+    isolation: isolate;
+    min-height: min(92vh, 52rem);
+    padding-block: clamp(3rem, 8vw, 5rem);
+    color: #f8f2ea;
+    overflow: hidden;
   }
 
-  .hero__layout {
+  .hero__noise {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    z-index: 1;
+  }
+
+  .hero__grid {
+    position: relative;
+    z-index: 2;
     display: grid;
     gap: var(--space-7);
     align-items: center;
-    margin-bottom: var(--space-7);
+    min-height: calc(min(92vh, 52rem) - 6rem);
   }
 
   .hero__eyebrow {
     font-size: 0.8125rem;
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--color-accent-soft);
+    color: rgb(240 200 150 / 0.75);
     margin: 0 0 var(--space-4);
   }
 
-  .hero__lead {
-    max-width: 34rem;
-    color: var(--color-muted);
-    font-size: 1.125rem;
+  .hero__title-line {
+    display: block;
+  }
+
+  .hero__title-glow {
+    background: linear-gradient(120deg, #fff8f0 0%, #f0c896 45%, #d4845c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero h1 {
     margin-bottom: var(--space-5);
+    color: #fff8f0;
+  }
+
+  .hero__lead {
+    max-width: 32rem;
+    color: rgb(248 242 234 / 0.72);
+    font-size: 1.125rem;
+    margin-bottom: var(--space-6);
   }
 
   .hero__trust {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-4) var(--space-6);
+    gap: var(--space-3);
     list-style: none;
     margin: 0 0 var(--space-6);
     padding: 0;
   }
 
-  .hero__trust li {
-    font-size: 0.875rem;
-    color: var(--color-muted);
+  .hero__badge {
+    padding: var(--space-3) var(--space-4);
+    background: rgb(255 255 255 / 0.06);
+    border: 1px solid rgb(255 255 255 / 0.12);
+    border-radius: var(--radius-md);
+    backdrop-filter: blur(12px);
   }
 
-  .hero__trust span {
+  .hero__badge-value {
     display: block;
     font-family: var(--font-display);
-    font-size: 1.5rem;
-    color: var(--color-text);
-    line-height: 1.2;
+    font-size: 1.375rem;
+    line-height: 1.1;
+    color: #fff8f0;
+  }
+
+  .hero__badge-label {
+    font-size: 0.75rem;
+    color: rgb(248 242 234 / 0.55);
   }
 
   .hero__actions {
@@ -109,35 +156,61 @@ const primaryPhone = site.phones.find((p) => p.primary) ?? site.phones[0];
     gap: var(--space-3);
   }
 
-  .hero__showcase {
-    max-width: 56rem;
+  .hero__visual {
+    display: flex;
+    justify-content: center;
   }
 
-  .hero__photo {
-    margin: 0;
+  .hero__frame {
+    position: relative;
+    width: 100%;
+    max-width: 28rem;
     border-radius: var(--radius-lg);
     overflow: hidden;
-    background: var(--color-panel);
-    border: 1px solid var(--color-line);
-    box-shadow: var(--shadow-card);
+    background: rgb(255 255 255 / 0.04);
+    border: 1px solid rgb(255 255 255 / 0.14);
+    backdrop-filter: blur(16px);
+    box-shadow:
+      0 0 0 1px rgb(255 255 255 / 0.05) inset,
+      0 24px 64px rgb(0 0 0 / 0.45);
+    transition: transform 0.15s ease-out, box-shadow 0.3s ease;
+    will-change: transform;
   }
 
-  :global(.hero__photo-img) {
+  .hero__frame-glow {
+    position: absolute;
+    inset: -40% -20% auto;
+    height: 60%;
+    background: radial-gradient(ellipse, rgb(212 132 92 / 0.35), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  :global(.hero__photo) {
+    position: relative;
+    z-index: 1;
     width: 100%;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
   }
 
-  .hero__photo figcaption {
+  .hero__caption {
+    position: relative;
+    z-index: 1;
+    margin: 0;
     padding: var(--space-3) var(--space-4);
     font-size: 0.8125rem;
-    color: var(--color-muted);
-    border-top: 1px solid var(--color-line);
+    color: rgb(248 242 234 / 0.6);
+    border-top: 1px solid rgb(255 255 255 / 0.1);
   }
 
   @media (min-width: 960px) {
-    .hero__layout {
-      grid-template-columns: 1fr 1fr;
+    .hero__grid {
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+
+    .hero__visual {
+      justify-content: flex-end;
     }
   }
 </style>

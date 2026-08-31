@@ -6,17 +6,20 @@
 
 ## Концепция дизайна
 
-**Gallery Atelier** — светлая галерея с акцентом на реальные работы:
+**Gallery Atelier + Aurora** — современная «живая» галерея:
 
-- Тёплые нейтральные тона и древесный акцент (`#a0522d`)
+- Тёплые нейтральные тона и древесный акцент
 - Шрифты: **Cormorant Garamond** + **DM Sans**
 - Фото в чистых сетках **без наложений**
-- Hero с интерактивной 3D-моделью ([Google model-viewer](https://modelviewer.dev/) + CC0 Kitchen Cabinet от Kenney)
+- Hero: **WebGL-градиент** ([@firecms/neat](https://github.com/FireCMSco/neat)) — эффект в духе Evervault, ~60 KB, GPU-ускорение
+- Glassmorphism, scroll-reveal, 3D-tilt карточек (desktop)
+- `prefers-reduced-motion` → статичный CSS-фон вместо WebGL
 - Форма заявки через WhatsApp (GitHub Pages без backend)
 
 ## Стек
 
 - [Astro 7](https://astro.build) + TypeScript
+- [@firecms/neat](https://www.npmjs.com/package/@firecms/neat) — WebGL shader gradient
 - Статическая сборка → GitHub Pages
 - Реальные фото из сообщества [VK](https://vk.ru/mebelka112)
 
@@ -27,63 +30,36 @@ npm install
 npm run dev
 ```
 
-Сайт откроется на `http://localhost:4321`.
-
 ### Сборка под GitHub Pages
 
 ```bash
 set ASTRO_SITE=https://teassty.github.io
 set ASTRO_BASE=/mebelka112/
 npm run build
-npm run preview
 ```
 
-На Linux/macOS:
+## Деплой
 
-```bash
-ASTRO_SITE=https://teassty.github.io ASTRO_BASE=/mebelka112/ npm run build
-```
+Push в `main` → `.github/workflows/deploy.yml` → https://teassty.github.io/mebelka112/
 
-## Деплой на GitHub Pages
+## Эффекты и производительность
 
-1. Репозиторий: https://github.com/TeasSty/mebelka112
-2. Push в ветку `main` запускает `.github/workflows/deploy.yml`
-3. В настройках репозитория: **Settings → Pages → Source: GitHub Actions**
-4. Live URL: https://teassty.github.io/mebelka112/
+| Эффект | Технология | Бюджет |
+|--------|------------|--------|
+| Hero aurora | Neat WebGL | ~60 KB JS, resolution 0.4–0.65 |
+| Scroll reveal | Intersection Observer + CSS | ~0 KB |
+| Card tilt | Vanilla JS perspective | ~0 KB |
+| Grain overlay | CSS SVG noise | ~0 KB |
 
-## 3D-модель
+- Пауза анимации при скрытой вкладке
+- На мобильных — пониженное resolution WebGL
+- Без Three.js, без тяжёлых 3D-моделей
 
-- Библиотека: `@google/model-viewer` (CDN 4.0.0)
-- Модель: CC0 Kitchen Counter by [KayKit](https://github.com/KayKit-Game-Assets/KayKit-Restaurant-Bits-1.0) (CC0)
-- Файл: `public/models/kitchen-counter.gltf` (+ `.bin`, texture)
-- При `prefers-reduced-motion: reduce` — без auto-rotate, статичный ракурс
+> Neat показывает небольшой watermark без лицензии. Для коммерческого использования без watermark: [neat.firecms.co](https://neat.firecms.co)
 
 ## Форма заявки
 
-**GitHub Pages не поддерживает серверную обработку форм.**
-
-Текущее поведение:
-
-- Клиентская валидация полей
-- Кнопка «Отправить в WhatsApp» открывает мессенджер с готовым текстом заявки
-- Заявка считается отправленной только после отправки сообщения в WhatsApp
-- Альтернатива: звонок, Telegram, ВКонтакте
-
-## Структура
-
-```
-src/
-  components/   # HeroGallery, ModelViewer3D, CategoryGrid, PortfolioGrid…
-  data/         # Контакты, категории, портфолио, FAQ
-  layouts/      # BaseLayout (+ model-viewer script)
-  pages/        # Маршруты сайта
-  styles/       # Глобальные стили
-public/
-  images/       # Оптимизированные фото (AVIF/WebP/JPG)
-  models/       # GLB для 3D hero
-scripts/
-  download-media.mjs  # Загрузка фото из VK
-```
+GitHub Pages не поддерживает backend. Заявка уходит через WhatsApp после отправки сообщения пользователем.
 
 ## Обновление фото
 
@@ -95,12 +71,6 @@ node scripts/download-media.mjs
 
 | Файл | Назначение |
 |------|------------|
-| `astro.config.mjs` | `site`, `base`, sitemap |
-| `.github/workflows/deploy.yml` | CI/CD GitHub Pages |
-| `src/data/site.ts` | Телефоны, адрес, часы, VK |
-
-## Что остаётся владельцу
-
-- Проверить актуальность телефонов и WhatsApp в `src/data/site.ts`
-- Добавлять новые фото из VK по мере появления проектов
-- При смене домена — обновить `ASTRO_SITE` и `base` в `astro.config.mjs`
+| `src/scripts/effects.ts` | Aurora, scroll reveal, card tilt |
+| `src/data/site.ts` | Контакты, оффер, VK |
+| `astro.config.mjs` | `site`, `base` |

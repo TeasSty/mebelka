@@ -72,8 +72,7 @@ body {
 
 img,
 picture,
-video,
-model-viewer {
+video {
   display: block;
   max-width: 100%;
 }
@@ -203,6 +202,51 @@ p {
 .btn--ghost:hover {
   transform: none;
   color: var(--color-accent);
+}
+
+.btn--glow {
+  background: linear-gradient(135deg, #d4845c 0%, #a0522d 100%);
+  color: #fff;
+  box-shadow:
+    0 4px 24px rgb(212 132 92 / 0.45),
+    0 0 0 1px rgb(255 255 255 / 0.12) inset;
+}
+
+.btn--glow:hover {
+  background: linear-gradient(135deg, #e09870 0%, #8b4513 100%);
+  color: #fff;
+}
+
+.btn--glass {
+  background: rgb(255 255 255 / 0.08);
+  border: 1px solid rgb(255 255 255 / 0.2);
+  color: #f8f2ea;
+  backdrop-filter: blur(12px);
+}
+
+.btn--glass:hover {
+  background: rgb(255 255 255 / 0.14);
+  color: #fff;
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .visually-hidden {
