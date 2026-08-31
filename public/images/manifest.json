@@ -1,0 +1,62 @@
+{
+  "logo": {
+    "width": 720,
+    "height": 720,
+    "category": null
+  },
+  "cover": {
+    "width": 794,
+    "height": 792,
+    "category": null
+  },
+  "hero-kitchen": {
+    "width": 1280,
+    "height": 960,
+    "category": null
+  },
+  "portfolio-kitchen-01": {
+    "width": 1080,
+    "height": 1440,
+    "category": "kuhni"
+  },
+  "portfolio-kitchen-02": {
+    "width": 1280,
+    "height": 960,
+    "category": "kuhni"
+  },
+  "portfolio-kitchen-03": {
+    "width": 1280,
+    "height": 960,
+    "category": "kuhni"
+  },
+  "portfolio-shkaf-01": {
+    "width": 1080,
+    "height": 1440,
+    "category": "shkafy"
+  },
+  "portfolio-shkaf-02": {
+    "width": 1080,
+    "height": 1440,
+    "category": "shkafy"
+  },
+  "portfolio-prihozhaya-01": {
+    "width": 1080,
+    "height": 1440,
+    "category": "prihozhie"
+  },
+  "portfolio-prihozhaya-02": {
+    "width": 1080,
+    "height": 1440,
+    "category": "prihozhie"
+  },
+  "portfolio-detskaya-01": {
+    "width": 1280,
+    "height": 960,
+    "category": "detskaya"
+  },
+  "portfolio-ofis-01": {
+    "width": 1280,
+    "height": 960,
+    "category": "ofis"
+  }
+}

@@ -1,0 +1,147 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroRuler from '../components/HeroRuler.astro';
+import CategoryGrid from '../components/CategoryGrid.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import PortfolioGrid from '../components/PortfolioGrid.astro';
+import ReviewsSection from '../components/ReviewsSection.astro';
+import FaqList from '../components/FaqList.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { site } from '../data/site';
+import { portfolio } from '../data/portfolio';
+import { withBase } from '../lib/paths';
+---
+
+<BaseLayout>
+  <HeroRuler />
+
+  <section class="section">
+    <div class="container">
+      <p class="section__eyebrow">Направления</p>
+      <h2>Что изготавливаем</h2>
+      <p class="section__lead">
+        Кухни, шкафы-купе, прихожие, детская и офисная мебель — по вашим размерам и материалам.
+      </p>
+      <CategoryGrid />
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container features">
+      <p class="section__eyebrow">Почему {site.name}</p>
+      <h2>Без лишних наценок</h2>
+      <ul class="features__list">
+        {
+          site.features.map((f) => (
+            <li>
+              <h3>{f.title}</h3>
+              <p>{f.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="features__materials">
+        Материалы:
+        {site.materials.map((m) => (
+          <span>{m}</span>
+        ))}
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="section__eyebrow">Процесс</p>
+      <h2>От замера до монтажа</h2>
+      <p class="section__lead">Четыре шага — каждый с понятным результатом.</p>
+      <ProcessSteps />
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container">
+      <p class="section__eyebrow">Портфолио</p>
+      <h2>Реальные работы</h2>
+      <p class="section__lead">
+        Фото из сообщества <a href={site.vk.url}>ВКонтакте</a> — {site.vk.albumsUrl.replace('https://vk.ru/', '')}.
+      </p>
+      <PortfolioGrid items={portfolio} limit={6} />
+      <p class="section__more">
+        <a class="btn btn--secondary" href={withBase('/portfolio')}>Все работы</a>
+      </p>
+    </div>
+  </section>
+
+  <ReviewsSection />
+
+  <section class="section">
+    <div class="container">
+      <p class="section__eyebrow">FAQ</p>
+      <h2>Частые вопросы</h2>
+      <FaqList />
+    </div>
+  </section>
+
+  <section class="section section--surface" id="zamer">
+    <div class="container">
+      <ContactForm />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .section--surface {
+    background: var(--color-surface);
+  }
+
+  .features__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .features__list li {
+    padding: var(--space-5);
+    background: var(--color-panel);
+    border-top: 2px solid var(--color-line);
+  }
+
+  .features__list h3 {
+    font-size: 1.125rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .features__list p {
+    margin: 0;
+    color: var(--color-muted);
+  }
+
+  .features__materials {
+    margin-top: var(--space-5);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+    font-size: 0.9375rem;
+  }
+
+  .features__materials span {
+    padding: 0.25rem 0.75rem;
+    background: var(--color-panel);
+    border: 1px solid rgb(138 154 123 / 0.35);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+  }
+
+  .section__more {
+    margin-top: var(--space-5);
+  }
+
+  @media (min-width: 768px) {
+    .features__list {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

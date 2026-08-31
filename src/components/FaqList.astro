@@ -1,0 +1,42 @@
+---
+import { faq } from '../data/content';
+---
+
+<div class="faq">
+  {
+    faq.map((item) => (
+      <details class="faq__item">
+        <summary>{item.question}</summary>
+        <p>{item.answer}</p>
+      </details>
+    ))
+  }
+</div>
+
+<style>
+  .faq {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .faq__item {
+    padding: var(--space-4);
+    background: var(--color-panel);
+    border: 1px solid rgb(138 154 123 / 0.3);
+  }
+
+  .faq__item summary {
+    cursor: pointer;
+    font-weight: 600;
+    list-style: none;
+  }
+
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__item p {
+    margin: var(--space-3) 0 0;
+    color: var(--color-muted);
+  }
+</style>

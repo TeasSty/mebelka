@@ -1,0 +1,226 @@
+---
+import { site } from '../data/site';
+import ResponsiveImage from './ResponsiveImage.astro';
+import { withBase } from '../lib/paths';
+
+const primaryPhone = site.phones.find((p) => p.primary) ?? site.phones[0];
+---
+
+<section class="hero grid-bg" aria-labelledby="hero-title">
+  <div class="hero__ruler" aria-hidden="true" data-ruler>
+    <div class="hero__ruler-track">
+      {
+        Array.from({ length: 31 }, (_, i) => (
+          <span class:list={['hero__tick', { 'hero__tick--major': i % 5 === 0 }]}>
+            {i % 5 === 0 && <em>{i * 10}</em>}
+          </span>
+        ))
+      }
+    </div>
+    <p class="hero__ruler-label">
+      <span data-ruler-value>0</span> мм — прокрутите, чтобы «снять замер»
+    </p>
+  </div>
+
+  <div class="container hero__body">
+    <div class="hero__content">
+      <p class="section__eyebrow">{site.city} · корпусная мебель</p>
+      <h1 id="hero-title">{site.offer.headline}</h1>
+      <p class="hero__sub">{site.offer.subline}</p>
+
+      <ul class="hero__stats">
+        <li>
+          <strong>{site.vk.rating}</strong>
+          <span>рейтинг VK</span>
+        </li>
+        <li>
+          <strong>{site.vk.subscribers}</strong>
+          <span>подписчиков</span>
+        </li>
+        <li>
+          <strong>0 ₽</strong>
+          <span>выезд дизайнера</span>
+        </li>
+      </ul>
+
+      <div class="hero__actions">
+        <a class="btn btn--primary" href={withBase('/kontakty#zamer')}>{site.offer.cta}</a>
+        <a class="btn btn--secondary" href={`tel:${primaryPhone.tel}`}>{primaryPhone.display}</a>
+      </div>
+    </div>
+
+    <div class="hero__visual">
+      <ResponsiveImage
+        name="hero-kitchen"
+        alt="Кухня на заказ от МебельКа, Йошкар-Ола"
+        width={1280}
+        height={960}
+        loading="eager"
+        fetchpriority="high"
+        sizes="(min-width: 960px) 42vw, 100vw"
+        class="hero__img"
+      />
+      <p class="hero__caption">
+        <span class="hero__dim">1280</span>
+        <span aria-hidden="true">×</span>
+        <span class="hero__dim">960</span>
+        <span>мм — реальный проект</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding-block: var(--space-6) var(--space-8);
+    border-bottom: 1px solid rgb(138 154 123 / 0.3);
+    overflow: hidden;
+  }
+
+  .hero__ruler {
+    position: relative;
+    margin-bottom: var(--space-6);
+    padding-block: var(--space-3);
+    border-block: 1px solid var(--color-line);
+    background: rgb(232 228 222 / 0.6);
+  }
+
+  .hero__ruler-track {
+    display: flex;
+    align-items: flex-end;
+    gap: 0;
+    height: 2.5rem;
+    padding-inline: var(--space-4);
+    will-change: transform;
+  }
+
+  .hero__tick {
+    flex: 0 0 2rem;
+    height: 0.5rem;
+    border-left: 1px solid rgb(138 154 123 / 0.5);
+    position: relative;
+  }
+
+  .hero__tick--major {
+    height: 1.25rem;
+    border-left-color: var(--color-text);
+  }
+
+  .hero__tick em {
+    position: absolute;
+    top: -1.25rem;
+    left: 0;
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-size: 0.625rem;
+    color: var(--color-muted);
+  }
+
+  .hero__ruler-label {
+    margin: var(--space-2) 0 0;
+    padding-inline: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-muted);
+  }
+
+  .hero__body {
+    display: grid;
+    gap: var(--space-7);
+    align-items: center;
+  }
+
+  .hero__sub {
+    max-width: 36rem;
+    color: var(--color-muted);
+    font-size: 1.0625rem;
+  }
+
+  .hero__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+    list-style: none;
+    margin: 0 0 var(--space-6);
+    padding: 0;
+  }
+
+  .hero__stats li {
+    display: grid;
+    gap: 0.125rem;
+  }
+
+  .hero__stats strong {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .hero__stats span {
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .hero__visual {
+    position: relative;
+  }
+
+  :global(.hero__img) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border: 1px solid rgb(138 154 123 / 0.35);
+  }
+
+  .hero__caption {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: var(--space-3) 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-muted);
+  }
+
+  .hero__dim {
+    color: var(--color-accent);
+    font-weight: 500;
+  }
+
+  @media (min-width: 960px) {
+    .hero__body {
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+  }
+</style>
+
+<script>
+  const ruler = document.querySelector('[data-ruler]');
+  const track = ruler?.querySelector('.hero__ruler-track');
+  const valueEl = document.querySelector('[data-ruler-value]');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (ruler && track && valueEl && !reducedMotion) {
+    let offset = 0;
+
+    const update = () => {
+      const scrollY = window.scrollY;
+      offset = Math.min(scrollY * 0.4, 300);
+      track.style.transform = `translateX(-${offset}px)`;
+      valueEl.textContent = String(Math.round(offset * 10));
+    };
+
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  } else if (valueEl) {
+    valueEl.textContent = '600';
+  }
+</script>

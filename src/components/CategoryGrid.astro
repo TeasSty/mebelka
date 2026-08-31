@@ -1,0 +1,110 @@
+---
+import { categories } from '../data/categories';
+import { withBase } from '../lib/paths';
+import ResponsiveImage from './ResponsiveImage.astro';
+---
+
+<div class="category-grid">
+  {
+    categories.map((cat, index) => (
+      <a class:list={['category-card', `category-card--${index + 1}`]} href={withBase(cat.path)}>
+        <ResponsiveImage
+          name={cat.heroImage}
+          alt={cat.name}
+          width={1080}
+          height={1440}
+          sizes="(min-width: 960px) 25vw, 50vw"
+          class="category-card__img"
+        />
+        <span class="category-card__content">
+          <span class="category-card__name">{cat.shortName}</span>
+          <span class="category-card__hint">Подробнее →</span>
+        </span>
+      </a>
+    ))
+  }
+</div>
+
+<style>
+  .category-grid {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: 1fr;
+  }
+
+  .category-card {
+    position: relative;
+    display: block;
+    min-height: 14rem;
+    overflow: hidden;
+    text-decoration: none;
+    border: 1px solid rgb(138 154 123 / 0.35);
+    color: #fff;
+  }
+
+  .category-card:hover {
+    color: #fff;
+  }
+
+  :global(.category-card__img) {
+    width: 100%;
+    height: 100%;
+    min-height: 14rem;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .category-card:hover :global(.category-card__img) {
+    transform: scale(1.03);
+  }
+
+  .category-card__content {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: linear-gradient(transparent, rgb(42 40 38 / 0.88));
+  }
+
+  .category-card__name {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+  }
+
+  .category-card__hint {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .category-grid {
+      grid-template-columns: repeat(6, 1fr);
+      grid-auto-rows: 10rem;
+    }
+
+    .category-card--1 {
+      grid-column: span 3;
+      grid-row: span 2;
+    }
+
+    .category-card--2 {
+      grid-column: span 3;
+    }
+
+    .category-card--3 {
+      grid-column: span 2;
+    }
+
+    .category-card--4 {
+      grid-column: span 2;
+    }
+
+    .category-card--5 {
+      grid-column: span 2;
+    }
+  }
+</style>

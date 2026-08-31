@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PortfolioGrid from '../components/PortfolioGrid.astro';
+import { portfolio } from '../data/portfolio';
+import { categories } from '../data/categories';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title={`Работы — ${site.name}`}
+  description="Фото реальных проектов: кухни, шкафы-купе, прихожие и другая мебель на заказ в Йошкар-Оле."
+  path="/portfolio"
+>
+  <section class="section page-head">
+    <div class="container">
+      <p class="section__eyebrow">Портфолио</p>
+      <h1>Наши работы</h1>
+      <p class="section__lead">
+        Фотографии из официального сообщества {site.name}. Полный архив — во
+        <a href={site.vk.albumsUrl}>ВКонтакте</a>.
+      </p>
+
+      <div class="filters" role="tablist" aria-label="Фильтр по категориям">
+        <button class="filters__btn is-active" type="button" data-filter="all" role="tab" aria-selected="true">
+          Все
+        </button>
+        {
+          categories.map((cat) => (
+            <button
+              class="filters__btn"
+              type="button"
+              data-filter={cat.slug}
+              role="tab"
+              aria-selected="false"
+            >
+              {cat.shortName}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container">
+      <div data-portfolio-grid>
+        <PortfolioGrid items={portfolio} />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const buttons = document.querySelectorAll('[data-filter]');
+  const items = document.querySelectorAll('[data-category]');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter');
+
+      buttons.forEach((b) => {
+        const active = b === btn;
+        b.classList.toggle('is-active', active);
+        b.setAttribute('aria-selected', String(active));
+      });
+
+      items.forEach((item) => {
+        const category = item.getAttribute('data-category');
+        const show = filter === 'all' || category === filter;
+        item.hidden = !show;
+      });
+    });
+  });
+</script>
+
+<style>
+  .page-head {
+    padding-bottom: 0;
+  }
+
+  .section--surface {
+    background: var(--color-surface);
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-5);
+  }
+
+  .filters__btn {
+    min-height: 2.75rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgb(138 154 123 / 0.45);
+    background: var(--color-panel);
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .filters__btn.is-active {
+    background: var(--color-text);
+    color: #fff;
+    border-color: var(--color-text);
+  }
+</style>

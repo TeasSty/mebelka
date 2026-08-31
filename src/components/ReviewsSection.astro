@@ -1,0 +1,73 @@
+---
+import { reviews } from '../data/content';
+import { site } from '../data/site';
+---
+
+<section class="reviews section">
+  <div class="container">
+    <p class="section__eyebrow">Отзывы</p>
+    <h2>Что говорят клиенты</h2>
+
+    <ul class="reviews__list">
+      {
+        reviews.map((review) => (
+          <li class="reviews__item">
+            <blockquote cite={review.sourceUrl}>
+              <p>«{review.text}»</p>
+              <footer>
+                — {review.author}
+                {review.sourceUrl ? (
+                  <a href={review.sourceUrl} rel="noopener noreferrer">
+                    ({review.source})
+                  </a>
+                ) : (
+                  <span>({review.source})</span>
+                )}
+              </footer>
+            </blockquote>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="reviews__more">
+      Рейтинг {site.vk.rating} во ВКонтакте ·
+      <a href={site.vk.url}>читать отзывы в сообществе →</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .reviews__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .reviews__item {
+    padding: var(--space-5);
+    background: var(--color-panel);
+    border-left: 3px solid var(--color-accent);
+  }
+
+  .reviews__item blockquote {
+    margin: 0;
+  }
+
+  .reviews__item p {
+    font-size: 1.0625rem;
+    margin-bottom: var(--space-3);
+  }
+
+  .reviews__item footer {
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+
+  .reviews__more {
+    margin-top: var(--space-5);
+    color: var(--color-muted);
+  }
+</style>

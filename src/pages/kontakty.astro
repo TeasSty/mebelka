@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { site } from '../data/site';
+
+const primaryPhone = site.phones.find((p) => p.primary) ?? site.phones[0];
+---
+
+<BaseLayout
+  title={`Контакты — ${site.name}, ${site.city}`}
+  description={`Адрес, телефоны и режим работы ${site.name}. Запись на бесплатный замер мебели в Йошкар-Оле.`}
+  path="/kontakty"
+>
+  <section class="section page-head">
+    <div class="container contact-grid">
+      <div>
+        <p class="section__eyebrow">Контакты</p>
+        <h1>Связаться с нами</h1>
+        <p class="section__lead">
+          Позвоните, напишите в мессенджер или оставьте заявку — перезвоним и согласуем бесплатный замер.
+        </p>
+
+        <dl class="contact-list">
+          <div>
+            <dt>Адрес</dt>
+            <dd>
+              <a href={site.address.mapUrl}>{site.address.full}</a>
+            </dd>
+          </div>
+          <div>
+            <dt>Телефоны</dt>
+            <dd>
+              {
+                site.phones.map((p) => (
+                  <a href={`tel:${p.tel}`}>{p.display}</a>
+                ))
+              }
+            </dd>
+          </div>
+          <div>
+            <dt>Мессенджеры</dt>
+            <dd>
+              <a href={site.messengers.whatsapp}>WhatsApp</a>
+              ·
+              <a href={site.messengers.telegram}>Telegram</a>
+              ·
+              <a href={site.messengers.vkMessage}>ВКонтакте</a>
+            </dd>
+          </div>
+          <div>
+            <dt>Режим работы</dt>
+            <dd>
+              {
+                site.hours.map((h) => (
+                  <span>
+                    {h.days}: {h.time}
+                  </span>
+                ))
+              }
+            </dd>
+          </div>
+        </dl>
+
+        <p class="contact-map">
+          <a class="btn btn--secondary" href={site.address.mapUrl}>Открыть на карте</a>
+        </p>
+      </div>
+
+      <ContactForm id="zamer" />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-grid {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .contact-list {
+    margin: var(--space-5) 0;
+  }
+
+  .contact-list div {
+    margin-bottom: var(--space-4);
+  }
+
+  .contact-list dt {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-line);
+    margin-bottom: var(--space-2);
+  }
+
+  .contact-list dd {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+  }
+
+  .contact-list a {
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .contact-map {
+    margin-top: var(--space-5);
+  }
+
+  @media (min-width: 960px) {
+    .contact-grid {
+      grid-template-columns: 1fr 1.1fr;
+      align-items: start;
+    }
+  }
+</style>

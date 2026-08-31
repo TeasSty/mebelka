@@ -1,0 +1,232 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  id?: string;
+  compact?: boolean;
+}
+
+const { id = 'zamer', compact = false } = Astro.props;
+const primaryPhone = site.phones.find((p) => p.primary) ?? site.phones[0];
+const whatsappPhone = '79278835868';
+---
+
+<section class:list={['contact-form', { 'contact-form--compact': compact }]} id={id}>
+  <div class="contact-form__head">
+    <p class="section__eyebrow">Запись на замер</p>
+    <h2>{site.offer.cta}</h2>
+    <p class="section__lead">
+      Заполните форму — откроется WhatsApp с готовым текстом заявки. Отправьте сообщение, и мы свяжемся с вами.
+    </p>
+    <p class="contact-form__note">
+      На GitHub Pages нет серверной обработки форм. Заявка уходит только после отправки в WhatsApp или звонка.
+    </p>
+  </div>
+
+  <form class="contact-form__form" name="zamer" data-form novalidate>
+    <p class="visually-hidden">
+      <label>
+        Не заполняйте это поле
+        <input name="bot-field" tabindex="-1" autocomplete="off" />
+      </label>
+    </p>
+
+    <label class="field">
+      <span>Имя</span>
+      <input type="text" name="name" required minlength="2" maxlength="80" autocomplete="name" />
+    </label>
+
+    <label class="field">
+      <span>Телефон</span>
+      <input
+        type="tel"
+        name="phone"
+        required
+        pattern="[\d\s+\-()]{10,20}"
+        inputmode="tel"
+        autocomplete="tel"
+        placeholder="+7 (927) 000-00-00"
+      />
+    </label>
+
+    <label class="field">
+      <span>Что планируете заказать</span>
+      <select name="category" required>
+        <option value="">Выберите категорию</option>
+        <option value="Кухня">Кухня</option>
+        <option value="Шкаф-купе">Шкаф-купе</option>
+        <option value="Прихожая">Прихожая</option>
+        <option value="Детская">Детская</option>
+        <option value="Офис">Офис</option>
+        <option value="Другое">Другое</option>
+      </select>
+    </label>
+
+    <label class="field field--full">
+      <span>Комментарий (необязательно)</span>
+      <textarea name="message" rows="3" maxlength="500"></textarea>
+    </label>
+
+    <div class="contact-form__actions field--full">
+      <button class="btn btn--primary" type="submit">Отправить в WhatsApp</button>
+      <a class="btn btn--secondary" href={`tel:${primaryPhone.tel}`}>Позвонить</a>
+    </div>
+
+    <p class="contact-form__status field--full" data-form-status role="status" aria-live="polite"></p>
+
+    <details class="contact-form__fallback field--full">
+      <summary>Другие способы связи</summary>
+      <p>
+        Телефон: <a href={`tel:${primaryPhone.tel}`}>{primaryPhone.display}</a> ·
+        <a href={site.messengers.telegram}>Telegram</a> ·
+        <a href={site.messengers.vkMessage}>ВКонтакте</a>
+      </p>
+    </details>
+  </form>
+</section>
+
+<style>
+  .contact-form {
+    display: grid;
+    gap: var(--space-6);
+    padding: var(--space-6);
+    background: var(--color-panel);
+    border: 1px solid rgb(138 154 123 / 0.35);
+  }
+
+  .contact-form--compact .contact-form__head h2 {
+    font-size: 1.5rem;
+  }
+
+  .contact-form__note {
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  .contact-form__form {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: 1fr;
+  }
+
+  .field {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .field span {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgb(138 154 123 / 0.45);
+    border-radius: var(--radius-sm);
+    font: inherit;
+    background: var(--color-bg);
+  }
+
+  .field textarea {
+    min-height: 6rem;
+    resize: vertical;
+  }
+
+  .field--full {
+    grid-column: 1 / -1;
+  }
+
+  .contact-form__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .contact-form__status {
+    min-height: 1.25rem;
+    margin: 0;
+    font-size: 0.9375rem;
+  }
+
+  .contact-form__status.is-error {
+    color: var(--color-accent);
+  }
+
+  .contact-form__status.is-success {
+    color: #2f6b3a;
+  }
+
+  .contact-form__fallback {
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+
+  @media (min-width: 768px) {
+    .contact-form {
+      grid-template-columns: 1fr 1.1fr;
+      align-items: start;
+    }
+
+    .contact-form__form {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>
+
+<script define:vars={{ whatsappPhone, siteName: site.name }}>
+  const forms = document.querySelectorAll('[data-form]');
+
+  forms.forEach((form) => {
+    const status = form.querySelector('[data-form-status]');
+    let lastSubmit = 0;
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!status) return;
+
+      const botField = form.querySelector('[name="bot-field"]');
+      if (botField && botField.value) return;
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const now = Date.now();
+      if (now - lastSubmit < 3000) {
+        status.textContent = 'Подождите несколько секунд перед повторной отправкой.';
+        status.className = 'contact-form__status field--full is-error';
+        return;
+      }
+      lastSubmit = now;
+
+      const data = new FormData(form);
+      const name = String(data.get('name') ?? '');
+      const phone = String(data.get('phone') ?? '');
+      const category = String(data.get('category') ?? '');
+      const message = String(data.get('message') ?? '');
+
+      const text = [
+        `Заявка на замер — ${siteName}`,
+        `Имя: ${name}`,
+        `Телефон: ${phone}`,
+        `Категория: ${category}`,
+        message ? `Комментарий: ${message}` : '',
+      ]
+        .filter(Boolean)
+        .join('\n');
+
+      const url = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank', 'noopener,noreferrer');
+
+      status.textContent =
+        'Открыли WhatsApp с текстом заявки. Нажмите «Отправить» в мессенджере — без этого мы не получим сообщение.';
+      status.className = 'contact-form__status field--full is-success';
+    });
+  });
+</script>

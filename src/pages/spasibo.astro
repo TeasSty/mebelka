@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+import { withBase } from '../lib/paths';
+
+const primaryPhone = site.phones.find((p) => p.primary) ?? site.phones[0];
+---
+
+<BaseLayout title={`Заявка отправлена — ${site.name}`} path="/spasibo">
+  <section class="section">
+    <div class="container thank-you">
+      <p class="section__eyebrow">Спасибо</p>
+      <h1>Мы получили вашу заявку</h1>
+      <p class="section__lead">
+        Если вы отправили сообщение через WhatsApp — мы ответим в ближайшее время. Или позвоните напрямую:
+        <a href={`tel:${primaryPhone.tel}`}>{primaryPhone.display}</a>.
+      </p>
+      <a class="btn btn--primary" href={withBase()}>На главную</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .thank-you {
+    max-width: 36rem;
+  }
+</style>

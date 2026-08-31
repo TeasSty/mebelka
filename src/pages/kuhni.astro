@@ -1,0 +1,9 @@
+---
+import CategoryPage from '../components/CategoryPage.astro';
+import { getCategory } from '../data/categories';
+
+const category = getCategory('kuhni');
+if (!category) throw new Error('Category not found');
+---
+
+<CategoryPage category={category} />

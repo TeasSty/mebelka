@@ -1,0 +1,58 @@
+---
+import ResponsiveImage from './ResponsiveImage.astro';
+import type { PortfolioItem } from '../data/portfolio';
+
+interface Props {
+  items: PortfolioItem[];
+  limit?: number;
+}
+
+const { items, limit } = Astro.props;
+const visible = limit ? items.slice(0, limit) : items;
+---
+
+<ul class="portfolio-grid">
+  {
+    visible.map((item) => (
+      <li class="portfolio-grid__item" data-category={item.category}>
+        <figure>
+          <ResponsiveImage
+            name={item.image}
+            alt={item.alt}
+            width={item.width}
+            height={item.height}
+            sizes="(min-width: 960px) 33vw, (min-width: 640px) 50vw, 100vw"
+            class="portfolio-grid__img"
+          />
+        </figure>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .portfolio-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+  }
+
+  .portfolio-grid__item {
+    margin: 0;
+    border: 1px solid rgb(138 154 123 / 0.3);
+    background: var(--color-panel);
+  }
+
+  .portfolio-grid__item figure {
+    margin: 0;
+  }
+
+  :global(.portfolio-grid__img) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+</style>
