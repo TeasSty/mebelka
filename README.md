@@ -4,24 +4,22 @@
 
 **Live:** https://teassty.github.io/mebelka112/
 
-## Концепция дизайна
+## Концепция дизайна — «Тёплая мастерская»
 
-**Gallery Atelier + Aurora** — современная «живая» галерея:
+Простой, честный сайт локальной мебельной мастерской — без «AI landing page» эффектов:
 
-- Тёплые нейтральные тона и древесный акцент
-- Шрифты: **Cormorant Garamond** + **DM Sans**
-- Фото в чистых сетках **без наложений**
-- Hero: **WebGL-градиент** ([@firecms/neat](https://github.com/FireCMSco/neat)) — эффект в духе Evervault, ~60 KB, GPU-ускорение
-- Glassmorphism, scroll-reveal, 3D-tilt карточек (desktop)
-- `prefers-reduced-motion` → статичный CSS-фон вместо WebGL
+- Светлый тёплый фон `#faf8f5`
+- Шрифты: **Source Serif 4** (заголовки) + **Source Sans 3** (текст)
+- Акцент `#c8102e` только на кнопках
+- Hero: заголовок, факты, CTA и **одно** фото — без WebGL, glass и градиентов
+- Фото в чистых сетках без наложений
 - Форма заявки через WhatsApp (GitHub Pages без backend)
 
 ## Стек
 
-- [Astro 7](https://astro.build) + TypeScript
-- [@firecms/neat](https://www.npmjs.com/package/@firecms/neat) — WebGL shader gradient
+- [Astro 7](https://astro.build) + TypeScript + sharp
 - Статическая сборка → GitHub Pages
-- Реальные фото из сообщества [VK](https://vk.ru/mebelka112)
+- Фото: реальные работы из [VK](https://vk.ru/mebelka112)
 
 ## Локальный запуск
 
@@ -30,11 +28,9 @@ npm install
 npm run dev
 ```
 
-### Сборка под GitHub Pages
+### Сборка
 
 ```bash
-set ASTRO_SITE=https://teassty.github.io
-set ASTRO_BASE=/mebelka112/
 npm run build
 ```
 
@@ -42,35 +38,24 @@ npm run build
 
 Push в `main` → `.github/workflows/deploy.yml` → https://teassty.github.io/mebelka112/
 
-## Эффекты и производительность
-
-| Эффект | Технология | Бюджет |
-|--------|------------|--------|
-| Hero aurora | Neat WebGL | ~60 KB JS, resolution 0.4–0.65 |
-| Scroll reveal | Intersection Observer + CSS | ~0 KB |
-| Card tilt | Vanilla JS perspective | ~0 KB |
-| Grain overlay | CSS SVG noise | ~0 KB |
-
-- Пауза анимации при скрытой вкладке
-- На мобильных — пониженное resolution WebGL
-- Без Three.js, без тяжёлых 3D-моделей
-
-> Neat показывает небольшой watermark без лицензии. Для коммерческого использования без watermark: [neat.firecms.co](https://neat.firecms.co)
-
-## Форма заявки
-
-GitHub Pages не поддерживает backend. Заявка уходит через WhatsApp после отправки сообщения пользователем.
-
 ## Обновление фото
 
 ```bash
+# Скачать фото из VK
 node scripts/download-media.mjs
+
+# Подготовить hero и карточки категорий из локальных VK-фото
+node scripts/generate-stock-local.mjs
+
+# (Опционально) сток с Unsplash, если доступен интернет
+node scripts/download-stock.mjs
 ```
 
 ## Конфигурация
 
 | Файл | Назначение |
 |------|------------|
-| `src/scripts/effects.ts` | Aurora, scroll reveal, card tilt |
 | `src/data/site.ts` | Контакты, оффер, VK |
-| `astro.config.mjs` | `site`, `base` |
+| `src/data/categories.ts` | Категории и hero-фото |
+| `src/data/portfolio.ts` | Портфолио (VK) |
+| `astro.config.mjs` | `site`, `base` для GitHub Pages |

@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
-    "@firecms/neat": "^1.0.2",
     "astro": "^7.2.9",
     "sharp": "^0.35.4"
   },

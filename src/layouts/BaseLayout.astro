@@ -10,10 +10,9 @@ interface Props {
   description?: string;
   path?: string;
   ogImage?: string;
-  immersiveHeader?: boolean;
 }
 
-const { title, description, path, ogImage, immersiveHeader = false } = Astro.props;
+const { title, description, path, ogImage } = Astro.props;
 ---
 
 <!doctype html>
@@ -25,49 +24,18 @@ const { title, description, path, ogImage, immersiveHeader = false } = Astro.pro
     <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
     <Seo title={title} description={description} path={path} ogImage={ogImage} />
   </head>
-  <body class:list={[{ 'body--immersive': immersiveHeader }]}>
+  <body>
     <a class="skip-link" href="#main">Перейти к содержимому</a>
-    <Header immersive={immersiveHeader} />
+    <Header />
     <main id="main">
       <slot />
     </main>
     <Footer />
-    <script>
-      import { initEffects } from '../scripts/effects';
-      initEffects();
-    </script>
   </body>
 </html>
 
 <style is:global>
   main {
     min-height: calc(100vh - var(--header-height));
-  }
-
-  .body--immersive .header {
-    position: absolute;
-    inset-inline: 0;
-    top: 0;
-    background: transparent;
-    border-bottom-color: transparent;
-  }
-
-  .body--immersive .header__brand,
-  .body--immersive .header__list a,
-  .body--immersive .header__phone {
-    color: #f8f2ea;
-  }
-
-  .body--immersive .header__tag {
-    color: rgb(248 242 234 / 0.65);
-  }
-
-  .body--immersive .header__toggle {
-    border-color: rgb(255 255 255 / 0.25);
-    background: rgb(255 255 255 / 0.08);
-  }
-
-  .body--immersive .header__toggle span[aria-hidden='true'] {
-    background: #f8f2ea;
   }
 </style>

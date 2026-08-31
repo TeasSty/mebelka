@@ -7,7 +7,7 @@ import ResponsiveImage from './ResponsiveImage.astro';
 <div class="category-grid">
   {
     categories.map((cat) => (
-      <a class="category-card" href={withBase(cat.path)} data-tilt>
+      <a class="category-card" href={withBase(cat.path)}>
         <div class="category-card__media">
           <ResponsiveImage
             name={cat.heroImage}
@@ -44,16 +44,12 @@ import ResponsiveImage from './ResponsiveImage.astro';
     border-radius: var(--radius-md);
     border: 1px solid var(--color-line);
     overflow: hidden;
-    box-shadow: var(--shadow-card);
-    transition: box-shadow 0.35s ease;
-    will-change: transform;
+    background: var(--color-panel);
   }
 
   .category-card:hover {
     color: inherit;
-    box-shadow:
-      var(--shadow-soft),
-      0 0 0 1px rgb(193 127 89 / 0.15);
+    border-color: var(--color-muted);
   }
 
   .category-card__media {
@@ -66,11 +62,6 @@ import ResponsiveImage from './ResponsiveImage.astro';
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
-  }
-
-  .category-card:hover :global(.category-card__img) {
-    transform: scale(1.02);
   }
 
   .category-card__body {
