@@ -22,7 +22,7 @@ const visible = limit ? items.slice(0, limit) : items;
               alt={item.alt}
               width={item.width}
               height={item.height}
-              sizes="(min-width: 960px) 33vw, (min-width: 640px) 50vw, 100vw"
+              sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 45vw"
               class="portfolio-grid__img"
             />
           </div>
@@ -38,8 +38,8 @@ const visible = limit ? items.slice(0, limit) : items;
     margin: 0;
     padding: 0;
     display: grid;
-    gap: var(--space-5);
-    grid-template-columns: 1fr;
+    gap: var(--space-3);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .portfolio-grid__item {
@@ -55,24 +55,38 @@ const visible = limit ? items.slice(0, limit) : items;
     overflow: hidden;
     background: var(--color-panel);
     border: 1px solid var(--color-line);
-    box-shadow: var(--shadow-card);
+    box-shadow: var(--shadow-soft);
+    max-height: 10.5rem;
   }
 
   :global(.portfolio-grid__img) {
     width: 100%;
-    aspect-ratio: 4 / 3;
+    height: 100%;
+    max-height: 10.5rem;
+    aspect-ratio: 3 / 2;
     object-fit: cover;
   }
 
   @media (min-width: 640px) {
     .portfolio-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+
+    .portfolio-grid__frame,
+    :global(.portfolio-grid__img) {
+      max-height: 12rem;
     }
   }
 
   @media (min-width: 1024px) {
     .portfolio-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .portfolio-grid__frame,
+    :global(.portfolio-grid__img) {
+      max-height: 13rem;
     }
   }
 </style>
